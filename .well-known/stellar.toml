@@ -1,0 +1,163 @@
+# ════════════════════════════════════════════════════════════════
+#  stellar.toml — USD Token Suite
+#  Home domain : https://usdseries.vercel.app/
+#  Issuer      : GC5QAUERATRRIPZWOWBEDTIRH6E3ROP2H7ZJWZYJNXPDMM3R27WLUSDC
+#  Network     : Stellar Public Network
+#  Generated   : 2026-06-14
+# ════════════════════════════════════════════════════════════════
+
+VERSION = "2.0.0"
+
+NETWORK_PASSPHRASE = "Public Global Stellar Network ; September 2015"
+
+ACCOUNTS = [
+  "GC5QAUERATRRIPZWOWBEDTIRH6E3ROP2H7ZJWZYJNXPDMM3R27WLUSDC"
+]
+
+# ────────────────────────────────────────────────────────────────
+#  DOCUMENTATION
+# ────────────────────────────────────────────────────────────────
+[DOCUMENTATION]
+ORG_NAME                = "USD Token Suite"
+ORG_DBA                 = "USD Series"
+ORG_URL                 = "https://usdseries.vercel.app/"
+ORG_LOGO                = "https://usdseries.vercel.app/logos/USD-series.png"
+ORG_DESCRIPTION         = "The USD Token Suite is a family of Stellar-native stablecoins issued from a single trusted account, each pegged 1:1 to the US Dollar. Together they form a modular financial infrastructure — spanning payments, anchoring, minting, industry, and beyond — purpose-built for the Stellar network's speed, low fees, and global reach."
+
+# ────────────────────────────────────────────────────────────────
+#  PRINCIPALS
+# ────────────────────────────────────────────────────────────────
+[[PRINCIPALS]]
+name              = "USD Series Admin"
+
+# ────────────────────────────────────────────────────────────────
+#  CURRENCIES
+# ────────────────────────────────────────────────────────────────
+
+# ── USDANCHOR ──────────────────────────────────────────────────
+[[CURRENCIES]]
+code              = "USDANCHOR"
+issuer            = "GC5QAUERATRRIPZWOWBEDTIRH6E3ROP2H7ZJWZYJNXPDMM3R27WLUSDC"
+status            = "live"
+display_decimals  = 7
+name              = "USD Anchor"
+desc              = "The settlement layer of the suite. USDANCHOR connects off-chain dollar liquidity to the Stellar network, acting as the foundational bridge between traditional finance and on-chain assets. Designed for anchors, exchanges, and financial institutions that need a reliable, redeemable USD token to underpin their operations."
+conditions        = "1:1 redeemable for USD. Total supply capped at 922,337,203,685 units across the USD Token Suite."
+image             = "https://usdseries.vercel.app/logos/USDANCHOR.png"
+fixed_number      = 922337203685
+is_unlimited      = false
+is_asset_anchored = true
+anchor_asset_type = "fiat"
+anchor_asset      = "USD"
+
+# ── USDCORE ────────────────────────────────────────────────────
+[[CURRENCIES]]
+code              = "USDCORE"
+issuer            = "GC5QAUERATRRIPZWOWBEDTIRH6E3ROP2H7ZJWZYJNXPDMM3R27WLUSDC"
+status            = "live"
+display_decimals  = 7
+name              = "USD Core"
+desc              = "The backbone token. USDCORE is the primary reserve and interoperability asset within the suite — used for internal accounting, cross-token liquidity, and protocol-level settlements. Where other tokens specialise, USDCORE generalises: it is the stable center around which the entire family orbits."
+conditions        = "1:1 redeemable for USD. Total supply capped at 922,337,203,685 units across the USD Token Suite."
+image             = "https://usdseries.vercel.app/logos/USDCORE.png"
+fixed_number      = 922337203685
+is_unlimited      = false
+is_asset_anchored = true
+anchor_asset_type = "fiat"
+anchor_asset      = "USD"
+
+# ── USDCROWN ───────────────────────────────────────────────────
+[[CURRENCIES]]
+code              = "USDCROWN"
+issuer            = "GC5QAUERATRRIPZWOWBEDTIRH6E3ROP2H7ZJWZYJNXPDMM3R27WLUSDC"
+status            = "live"
+display_decimals  = 7
+name              = "USD Crown"
+desc              = "The premium tier. USDCROWN is designed for high-value transactions, institutional partners, and privileged access tiers within platforms built on Stellar. Its identity signals trust, authority, and elevated standing — ideal for enterprise wallets, VIP settlement rails, and sovereign-grade financial products."
+conditions        = "1:1 redeemable for USD. Total supply capped at 922,337,203,685 units across the USD Token Suite."
+image             = "https://usdseries.vercel.app/logos/USDCROWN.png"
+fixed_number      = 922337203685
+is_unlimited      = false
+is_asset_anchored = true
+anchor_asset_type = "fiat"
+anchor_asset      = "USD"
+
+# ── USDINDUS ───────────────────────────────────────────────────
+[[CURRENCIES]]
+code              = "USDINDUS"
+issuer            = "GC5QAUERATRRIPZWOWBEDTIRH6E3ROP2H7ZJWZYJNXPDMM3R27WLUSDC"
+status            = "live"
+display_decimals  = 7
+name              = "USD Industrial"
+desc              = "Built for industry. USDINDUS targets B2B payment flows, supply chain finance, and industrial-scale transactions where reliability and throughput matter above all else. It brings the dollar onto Stellar for manufacturers, logistics providers, and trade finance operators who need programmable, auditable USD movement at scale."
+conditions        = "1:1 redeemable for USD. Total supply capped at 922,337,203,685 units across the USD Token Suite."
+image             = "https://usdseries.vercel.app/logos/USDINDUS.png"
+fixed_number      = 922337203685
+is_unlimited      = false
+is_asset_anchored = true
+anchor_asset_type = "fiat"
+anchor_asset      = "USD"
+
+# ── USDMINT ────────────────────────────────────────────────────
+[[CURRENCIES]]
+code              = "USDMINT"
+issuer            = "GC5QAUERATRRIPZWOWBEDTIRH6E3ROP2H7ZJWZYJNXPDMM3R27WLUSDC"
+status            = "live"
+display_decimals  = 7
+name              = "USD Mint"
+desc              = "The creation token. USDMINT represents the minting and issuance layer — used where new token supply enters the ecosystem. It is the instrument of origin: fresh liquidity, newly onboarded dollars, and tokenised fiat at the point of injection. Clean, verifiable, and traceable from the first block."
+conditions        = "1:1 redeemable for USD. Total supply capped at 922,337,203,685 units across the USD Token Suite."
+image             = "https://usdseries.vercel.app/logos/USDMINT.png"
+fixed_number      = 922337203685
+is_unlimited      = false
+is_asset_anchored = true
+anchor_asset_type = "fiat"
+anchor_asset      = "USD"
+
+# ── USDPAY ─────────────────────────────────────────────────────
+[[CURRENCIES]]
+code              = "USDPAY"
+issuer            = "GC5QAUERATRRIPZWOWBEDTIRH6E3ROP2H7ZJWZYJNXPDMM3R27WLUSDC"
+status            = "live"
+display_decimals  = 7
+name              = "USD Pay"
+desc              = "Fast money, everywhere. USDPAY is optimised for consumer and merchant payments — micro-transactions, point-of-sale, remittances, and real-time peer-to-peer transfers. Leveraging Stellar's 3–5 second finality and near-zero fees, USDPAY makes spending a dollar on-chain feel as instant as tapping a card."
+conditions        = "1:1 redeemable for USD. Total supply capped at 922,337,203,685 units across the USD Token Suite."
+image             = "https://usdseries.vercel.app/logos/USDPAY.png"
+fixed_number      = 922337203685
+is_unlimited      = false
+is_asset_anchored = true
+anchor_asset_type = "fiat"
+anchor_asset      = "USD"
+
+# ── USDSTELLAR ─────────────────────────────────────────────────
+[[CURRENCIES]]
+code              = "USDSTELLAR"
+issuer            = "GC5QAUERATRRIPZWOWBEDTIRH6E3ROP2H7ZJWZYJNXPDMM3R27WLUSDC"
+status            = "live"
+display_decimals  = 7
+name              = "USD Stellar"
+desc              = "The network's own dollar. USDSTELLAR is the flagship USD token for the Stellar ecosystem — built to integrate natively with Stellar DEX, Stellar anchors, and ecosystem dApps. It celebrates the network's mission of open financial access and serves as the go-to dollar denomination for projects building on Stellar."
+conditions        = "1:1 redeemable for USD. Total supply capped at 922,337,203,685 units across the USD Token Suite."
+image             = "https://usdseries.vercel.app/logos/USDSTELLAR.png"
+fixed_number      = 922337203685
+is_unlimited      = false
+is_asset_anchored = true
+anchor_asset_type = "fiat"
+anchor_asset      = "USD"
+
+# ── USDXLM ─────────────────────────────────────────────────────
+[[CURRENCIES]]
+code              = "USDXLM"
+issuer            = "GC5QAUERATRRIPZWOWBEDTIRH6E3ROP2H7ZJWZYJNXPDMM3R27WLUSDC"
+status            = "live"
+display_decimals  = 7
+name              = "USD XLM"
+desc              = "The bridge between worlds. USDXLM pairs the stability of the dollar with the native energy of XLM, Stellar's own currency. It is designed for liquidity pools, DEX trading pairs, and hybrid financial products where dollar value and Stellar's native asset need to move together — making it the ideal token for DeFi primitives on the network."
+conditions        = "1:1 redeemable for USD. Total supply capped at 922,337,203,685 units across the USD Token Suite."
+image             = "https://usdseries.vercel.app/logos/USDXLM.png"
+fixed_number      = 922337203685
+is_unlimited      = false
+is_asset_anchored = true
+anchor_asset_type = "fiat"
+anchor_asset      = "USD"
