@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>USD Series — Stellar Stablecoin Suite</title>
+<meta name="description" content="Eight Stellar-native stablecoins, each pegged 1:1 to the US Dollar. One issuer. Eight purposes. Built for the Stellar network.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:        #060B14;
+    --surface:   #0D1829;
+    --surface2:  #1A2A40;
+    --accent:    #00C47C;
+    --accent-dim:#007A4C;
+    --white:     #F4F6FA;
+    --muted:     #8A96A8;
+    --border:    rgba(255,255,255,0.07);
+    --font-display: 'DM Serif Display', Georgia, serif;
+    --font-body:    'Inter', system-ui, sans-serif;
+    --font-mono:    'JetBrains Mono', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 2rem;
+    height: 60px;
+    background: rgba(6,11,20,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-size: 13px; color: var(--muted); text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--white); }
+  .nav-pill {
+    font-size: 12px; font-weight: 500;
+    background: var(--accent); color: #060B14;
+    padding: 6px 16px; border-radius: 20px;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .nav-pill:hover { opacity: 0.85; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    padding: 7rem 2rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* subtle grid pattern */
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .hero-eyebrow::before, .hero-eyebrow::after {
+    content: '';
+    display: block; width: 32px; height: 1px;
+    background: var(--accent); opacity: 0.5;
+  }
+
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 7vw, 6rem);
+    font-weight: 400;
+    line-height: 1.08;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.25rem;
+    color: var(--white);
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: var(--muted);
+    max-width: 520px;
+    margin: 1.5rem auto 2.5rem;
+    line-height: 1.65;
+    font-weight: 300;
+  }
+
+  .hero-actions {
+    display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
+    margin-bottom: 4rem;
+  }
+  .btn-primary {
+    background: var(--accent); color: #060B14;
+    font-size: 14px; font-weight: 600;
+    padding: 12px 28px; border-radius: 8px;
+    text-decoration: none; transition: opacity 0.2s;
+    letter-spacing: 0.01em;
+  }
+  .btn-primary:hover { opacity: 0.88; }
+  .btn-ghost {
+    background: transparent; color: var(--white);
+    font-size: 14px; font-weight: 400;
+    padding: 11px 28px; border-radius: 8px;
+    border: 1px solid var(--border);
+    text-decoration: none; transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-ghost:hover { border-color: rgba(255,255,255,0.2); }
+
+  /* orbital ring of coins */
+  .orbital-wrap {
+    position: relative;
+    width: 340px; height: 340px;
+    margin: 0 auto;
+  }
+  .orbital-center {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 88px; height: 88px;
+    background: var(--surface2);
+    border: 1px solid rgba(0,196,124,0.3);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column;
+    z-index: 2;
+  }
+  .orbital-center-label {
+    font-family: var(--font-mono);
+    font-size: 10px; color: var(--accent); letter-spacing: 0.1em;
+  }
+  .orbital-center-usd {
+    font-family: var(--font-display);
+    font-size: 26px; color: var(--white);
+    line-height: 1;
+  }
+  .orbital-ring {
+    position: absolute; inset: 0;
+    border-radius: 50%;
+    border: 1px dashed rgba(255,255,255,0.08);
+    animation: spin 32s linear infinite;
+  }
+  .orbital-ring-2 {
+    position: absolute; inset: 24px;
+    border-radius: 50%;
+    border: 1px dashed rgba(0,196,124,0.12);
+    animation: spin 20s linear infinite reverse;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .coin {
+    position: absolute;
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 7.5px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: white;
+    transform: translate(-50%, -50%);
+    border: 1px solid rgba(255,255,255,0.12);
+    transition: transform 0.2s;
+    cursor: default;
+  }
+  .coin:hover { transform: translate(-50%, -50%) scale(1.15); z-index: 10; }
+
+  /* 8 coins placed around a 150px radius circle */
+  /* angle = i * 45deg, r=150, center=170 */
+  /* top, top-right, right, bottom-right, bottom, bottom-left, left, top-left */
+  .coin-0  { top: calc(170px - 150px); left: 170px; } /* 0° top */
+  .coin-1  { top: calc(170px - 106px); left: calc(170px + 106px); } /* 45° */
+  .coin-2  { top: 170px; left: calc(170px + 150px); } /* 90° right */
+  .coin-3  { top: calc(170px + 106px); left: calc(170px + 106px); } /* 135° */
+  .coin-4  { top: calc(170px + 150px); left: 170px; } /* 180° bottom */
+  .coin-5  { top: calc(170px + 106px); left: calc(170px - 106px); } /* 225° */
+  .coin-6  { top: 170px; left: calc(170px - 150px); } /* 270° left */
+  .coin-7  { top: calc(170px - 106px); left: calc(170px - 106px); } /* 315° */
+
+  /* ── STATS BAR ── */
+  .stats-bar {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    padding: 2rem;
+    display: flex; justify-content: center;
+    gap: 0;
+  }
+  .stat-item {
+    flex: 1; max-width: 200px;
+    text-align: center;
+    padding: 0 2rem;
+    border-right: 1px solid var(--border);
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-num {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    color: var(--white);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .stat-label {
+    font-size: 12px; color: var(--muted);
+    font-family: var(--font-mono);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* ── SECTION ── */
+  .section { padding: 6rem 2rem; max-width: 1100px; margin: 0 auto; }
+  .section-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px; color: var(--accent);
+    letter-spacing: 0.12em; text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 400; line-height: 1.15;
+    margin-bottom: 1rem;
+  }
+  .section-body {
+    font-size: 16px; color: var(--muted);
+    max-width: 540px; line-height: 1.7;
+    margin-bottom: 3rem;
+    font-weight: 300;
+  }
+
+  /* ── TOKEN GRID ── */
+  .token-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .token-card {
+    background: var(--surface);
+    padding: 1.75rem;
+    transition: background 0.2s;
+    cursor: default;
+  }
+  .token-card:hover { background: var(--surface2); }
+  .token-card-header {
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 1rem;
+  }
+  .token-coin {
+    width: 44px; height: 44px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 18px;
+  }
+  .token-code {
+    font-family: var(--font-mono);
+    font-size: 13px; font-weight: 500;
+    color: var(--accent);
+    letter-spacing: 0.04em;
+  }
+  .token-name {
+    font-size: 12px; color: var(--muted); margin-top: 2px;
+  }
+  .token-desc {
+    font-size: 13.5px; color: var(--muted);
+    line-height: 1.6; font-weight: 300;
+  }
+  .token-tag {
+    display: inline-block;
+    margin-top: 1rem;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.05);
+    color: var(--muted);
+  }
+
+  /* ── HOW IT WORKS ── */
+  .how-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+  .how-item {}
+  .how-num {
+    font-family: var(--font-display);
+    font-size: 3rem; color: var(--surface2);
+    line-height: 1; margin-bottom: 0.75rem;
+    user-select: none;
+  }
+  .how-title { font-size: 15px; font-weight: 500; margin-bottom: 0.5rem; }
+  .how-body { font-size: 13.5px; color: var(--muted); line-height: 1.65; font-weight: 300; }
+
+  /* ── TECHNICAL ── */
+  .tech-section {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .tech-inner {
+    max-width: 1100px; margin: 0 auto;
+    padding: 5rem 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+  .code-block {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .code-header {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,0.02);
+  }
+  .code-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .code-filename {
+    font-family: var(--font-mono);
+    font-size: 11px; color: var(--muted);
+    margin-left: 4px;
+  }
+  .code-body {
+    padding: 1.25rem 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.8;
+    color: #9BB8D4;
+    overflow-x: auto;
+  }
+  .code-key { color: #7FD4B0; }
+  .code-val { color: #F0C070; }
+  .code-str { color: #E88C8C; }
+  .code-comment { color: #4A5568; }
+
+  /* ── ISSUER BANNER ── */
+  .issuer-banner {
+    max-width: 1100px; margin: 0 auto;
+    padding: 3rem 2rem;
+    text-align: center;
+  }
+  .issuer-label {
+    font-family: var(--font-mono);
+    font-size: 11px; color: var(--muted);
+    letter-spacing: 0.1em; text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+  .issuer-addr {
+    font-family: var(--font-mono);
+    font-size: clamp(10px, 1.8vw, 14px);
+    color: var(--white);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 24px;
+    display: inline-block;
+    letter-spacing: 0.04em;
+    word-break: break-all;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  .issuer-addr:hover { border-color: var(--accent-dim); }
+  .copy-hint {
+    font-size: 12px; color: var(--muted);
+    margin-top: 10px;
+    font-family: var(--font-mono);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2.5rem 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 1rem;
+    max-width: 100%;
+  }
+  .footer-brand {
+    font-family: var(--font-mono);
+    font-size: 13px; color: var(--accent);
+    letter-spacing: 0.08em;
+  }
+  .footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+  .footer-links a {
+    font-size: 13px; color: var(--muted);
+    text-decoration: none; transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--white); }
+  .footer-copy { font-size: 12px; color: #3A4A5A; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .tech-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+    .stat-item { padding: 0 1rem; }
+    .stats-bar { flex-wrap: wrap; gap: 1.5rem; }
+    .stat-item { border-right: none; border-bottom: 1px solid var(--border); padding-bottom: 1.5rem; }
+    .stat-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .orbital-wrap { width: 280px; height: 280px; transform: scale(0.82); }
+    footer { flex-direction: column; align-items: flex-start; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .orbital-ring, .orbital-ring-2 { animation: none; }
+  }
+
+  /* ── SCROLL FADE-IN ── */
+  .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .fade-in.visible { opacity: 1; transform: none; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">USD SERIES</a>
+  <ul class="nav-links">
+    <li><a href="#tokens">Tokens</a></li>
+    <li><a href="#how">How it works</a></li>
+    <li><a href="#technical">Technical</a></li>
+  </ul>
+  <a href="https://stellar.expert/explorer/public/account/GC5QAUERATRRIPZWOWBEDTIRH6E3ROP2H7ZJWZYJNXPDMM3R27WLUSDC" target="_blank" rel="noopener" class="nav-pill">View on Stellar →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <p class="hero-eyebrow">Stellar Public Network</p>
+  <h1>One dollar.<br><em>Eight purposes.</em></h1>
+  <p class="hero-sub">A family of Stellar-native stablecoins — each pegged 1:1 to the US Dollar, issued from a single trusted account. Modular financial infrastructure, built for speed.</p>
+  <div class="hero-actions">
+    <a href="#tokens" class="btn-primary">Explore tokens</a>
+    <a href="/.well-known/stellar.toml" class="btn-ghost">stellar.toml ↗</a>
+  </div>
+
+  <!-- Orbital -->
+  <div class="orbital-wrap" aria-hidden="true">
+    <div class="orbital-ring"></div>
+    <div class="orbital-ring-2"></div>
+    <div class="orbital-center">
+      <span class="orbital-center-label">USD</span>
+      <span class="orbital-center-usd">$</span>
+    </div>
+    <div class="coin coin-0" style="background:#0D1E35; border-color:#185FA5;">ANCHOR</div>
+    <div class="coin coin-1" style="background:#0E1F10; border-color:#3B6D11;">CORE</div>
+    <div class="coin coin-2" style="background:#211508; border-color:#854F0B;">CROWN</div>
+    <div class="coin coin-3" style="background:#181817; border-color:#5F5E5A;">INDUS</div>
+    <div class="coin coin-4" style="background:#071A14; border-color:#0F6E56;">MINT</div>
+    <div class="coin coin-5" style="background:#130E2C; border-color:#533AB7;">PAY</div>
+    <div class="coin coin-6" style="background:#0D1E35; border-color:#185FA5;">STELLAR</div>
+    <div class="coin coin-7" style="background:#26101A; border-color:#993556;">XLM</div>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar fade-in">
+  <div class="stat-item">
+    <div class="stat-num">8</div>
+    <div class="stat-label">Tokens</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">1 : 1</div>
+    <div class="stat-label">USD peg</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">922B</div>
+    <div class="stat-label">Max supply</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">~3s</div>
+    <div class="stat-label">Finality</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">SEP-1</div>
+    <div class="stat-label">Compliant</div>
+  </div>
+</div>
+
+<!-- TOKENS SECTION -->
+<div id="tokens">
+  <div class="section fade-in">
+    <p class="section-eyebrow">The suite</p>
+    <h2 class="section-title">Eight tokens.<br>One issuer.</h2>
+    <p class="section-body">Each token shares the same dollar parity and issuer guarantee, while serving a distinct role across payments, anchoring, minting, and institutional finance.</p>
+
+    <div class="token-grid">
+
+      <div class="token-card">
+        <div class="token-card-header">
+          <div class="token-coin" style="background:#0D1E35; border: 1px solid #185FA5;">⚓</div>
+          <div>
+            <div class="token-code">USDANCHOR</div>
+            <div class="token-name">USD Anchor</div>
+          </div>
+        </div>
+        <p class="token-desc">The foundational bridge between off-chain dollar liquidity and the Stellar network. Built for anchors, exchanges, and financial institutions.</p>
+        <span class="token-tag">Settlement</span>
+      </div>
+
+      <div class="token-card">
+        <div class="token-card-header">
+          <div class="token-coin" style="background:#0E1F10; border: 1px solid #3B6D11;">⬡</div>
+          <div>
+            <div class="token-code">USDCORE</div>
+            <div class="token-name">USD Core</div>
+          </div>
+        </div>
+        <p class="token-desc">The primary reserve and interoperability asset within the suite — used for internal accounting and protocol-level settlements.</p>
+        <span class="token-tag">Reserve</span>
+      </div>
+
+      <div class="token-card">
+        <div class="token-card-header">
+          <div class="token-coin" style="background:#211508; border: 1px solid #854F0B;">♛</div>
+          <div>
+            <div class="token-code">USDCROWN</div>
+            <div class="token-name">USD Crown</div>
+          </div>
+        </div>
+        <p class="token-desc">Designed for high-value transactions and institutional partners. Signals trust, authority, and elevated standing in enterprise contexts.</p>
+        <span class="token-tag">Institutional</span>
+      </div>
+
+      <div class="token-card">
+        <div class="token-card-header">
+          <div class="token-coin" style="background:#181817; border: 1px solid #5F5E5A;">⚙</div>
+          <div>
+            <div class="token-code">USDINDUS</div>
+            <div class="token-name">USD Industrial</div>
+          </div>
+        </div>
+        <p class="token-desc">Targets B2B payment flows, supply chain finance, and industrial-scale transactions. Programmable, auditable USD movement at scale.</p>
+        <span class="token-tag">B2B · Trade</span>
+      </div>
+
+      <div class="token-card">
+        <div class="token-card-header">
+          <div class="token-coin" style="background:#071A14; border: 1px solid #0F6E56;">✦</div>
+          <div>
+            <div class="token-code">USDMINT</div>
+            <div class="token-name">USD Mint</div>
+          </div>
+        </div>
+        <p class="token-desc">The instrument of origin — representing the minting and issuance layer. Clean, verifiable, and traceable from the first block.</p>
+        <span class="token-tag">Issuance</span>
+      </div>
+
+      <div class="token-card">
+        <div class="token-card-header">
+          <div class="token-coin" style="background:#130E2C; border: 1px solid #533AB7;">⚡</div>
+          <div>
+            <div class="token-code">USDPAY</div>
+            <div class="token-name">USD Pay</div>
+          </div>
+        </div>
+        <p class="token-desc">Optimised for consumer payments, micro-transactions, and remittances. Stellar's 3–5 second finality makes every dollar move instantly.</p>
+        <span class="token-tag">Payments</span>
+      </div>
+
+      <div class="token-card">
+        <div class="token-card-header">
+          <div class="token-coin" style="background:#0D1E35; border: 1px solid #185FA5;">★</div>
+          <div>
+            <div class="token-code">USDSTELLAR</div>
+            <div class="token-name">USD Stellar</div>
+          </div>
+        </div>
+        <p class="token-desc">The flagship USD token for the Stellar ecosystem — built to integrate natively with Stellar DEX, anchors, and ecosystem dApps.</p>
+        <span class="token-tag">Ecosystem</span>
+      </div>
+
+      <div class="token-card">
+        <div class="token-card-header">
+          <div class="token-coin" style="background:#26101A; border: 1px solid #993556;">◆</div>
+          <div>
+            <div class="token-code">USDXLM</div>
+            <div class="token-name">USD XLM</div>
+          </div>
+        </div>
+        <p class="token-desc">Pairs dollar stability with XLM's native energy. Designed for liquidity pools, DEX trading pairs, and DeFi primitives on Stellar.</p>
+        <span class="token-tag">DeFi · DEX</span>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div id="how" style="background: var(--surface); border-top: 1px solid var(--border);">
+  <div class="section fade-in">
+    <p class="section-eyebrow">How it works</p>
+    <h2 class="section-title">Built on trust.<br>Settled on Stellar.</h2>
+    <p class="section-body">Every token in the suite shares the same issuer, the same dollar peg, and the same settlement finality — while each plays a distinct role in the ecosystem.</p>
+
+    <div class="how-grid">
+      <div class="how-item">
+        <div class="how-num">01</div>
+        <div class="how-title">Add a trustline</div>
+        <p class="how-body">Open your Stellar wallet (Lobstr, Freighter, Solar) and add a trustline using the token code and the issuer address. This takes under a minute.</p>
+      </div>
+      <div class="how-item">
+        <div class="how-num">02</div>
+        <div class="how-title">Receive tokens</div>
+        <p class="how-body">Once your trustline is established, you can receive or purchase any USD Series token on the Stellar DEX or directly from authorised distributors.</p>
+      </div>
+      <div class="how-item">
+        <div class="how-num">03</div>
+        <div class="how-title">Send &amp; settle</div>
+        <p class="how-body">Transact in seconds with near-zero fees. Every transfer settles on the Stellar ledger in 3–5 seconds, with full on-chain auditability.</p>
+      </div>
+      <div class="how-item">
+        <div class="how-num">04</div>
+        <div class="how-title">Redeem anytime</div>
+        <p class="how-body">Each token is 1:1 redeemable for USD. Contact the issuer directly to initiate a redemption back to fiat at any time.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ISSUER BANNER -->
+<div class="issuer-banner fade-in">
+  <p class="issuer-label">Issuer account</p>
+  <div class="issuer-addr" id="issuer-addr" onclick="copyIssuer()" title="Click to copy">
+    GC5QAUERATRRIPZWOWBEDTIRH6E3ROP2H7ZJWZYJNXPDMM3R27WLUSDC
+  </div>
+  <p class="copy-hint" id="copy-hint">click to copy</p>
+</div>
+
+<!-- TECHNICAL -->
+<div id="technical" class="tech-section">
+  <div class="tech-inner fade-in">
+    <div>
+      <p class="section-eyebrow">Technical</p>
+      <h2 class="section-title" style="font-size: 2.25rem;">SEP-0001<br>compliant.</h2>
+      <p class="section-body" style="margin-bottom: 1.5rem;">The stellar.toml file is hosted at the well-known path, declaring all eight tokens with full metadata, redemption instructions, and issuer documentation.</p>
+      <a href="/.well-known/stellar.toml" class="btn-ghost" style="display: inline-block;">View stellar.toml ↗</a>
+
+      <div style="margin-top: 2.5rem; display: flex; flex-direction: column; gap: 12px;">
+        <div style="display: flex; gap: 12px; align-items: flex-start;">
+          <span style="color: var(--accent); font-size: 18px; line-height: 1;">✓</span>
+          <div>
+            <div style="font-size: 14px; font-weight: 500; margin-bottom: 2px;">CORS enabled</div>
+            <div style="font-size: 13px; color: var(--muted);">Access-Control-Allow-Origin: * on the .well-known path</div>
+          </div>
+        </div>
+        <div style="display: flex; gap: 12px; align-items: flex-start;">
+          <span style="color: var(--accent); font-size: 18px; line-height: 1;">✓</span>
+          <div>
+            <div style="font-size: 14px; font-weight: 500; margin-bottom: 2px;">7 decimal places</div>
+            <div style="font-size: 13px; color: var(--muted);">Full Stellar precision on all token amounts</div>
+          </div>
+        </div>
+        <div style="display: flex; gap: 12px; align-items: flex-start;">
+          <span style="color: var(--accent); font-size: 18px; line-height: 1;">✓</span>
+          <div>
+            <div style="font-size: 14px; font-weight: 500; margin-bottom: 2px;">Fiat-anchored</div>
+            <div style="font-size: 13px; color: var(--muted);">anchor_asset = USD, is_asset_anchored = true</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dot" style="background:#E24B4A;"></div>
+          <div class="code-dot" style="background:#EF9F27;"></div>
+          <div class="code-dot" style="background:#639922;"></div>
+          <span class="code-filename">stellar.toml (excerpt)</span>
+        </div>
+        <div class="code-body">
+<span class="code-comment"># Network</span>
+<span class="code-key">NETWORK_PASSPHRASE</span> = <span class="code-str">"Public Global Stellar Network ; September 2015"</span>
+
+<span class="code-comment"># Issuer account</span>
+<span class="code-key">ACCOUNTS</span> = [
+  <span class="code-str">"GC5QAUERATRRIPZ…WLUSDC"</span>
+]
+
+<span class="code-comment"># Example token</span>
+[[<span class="code-key">CURRENCIES</span>]]
+<span class="code-key">code</span>               = <span class="code-str">"USDPAY"</span>
+<span class="code-key">issuer</span>             = <span class="code-str">"GC5QAUE…WLUSDC"</span>
+<span class="code-key">status</span>             = <span class="code-str">"live"</span>
+<span class="code-key">display_decimals</span>   = <span class="code-val">7</span>
+<span class="code-key">is_asset_anchored</span>  = <span class="code-val">true</span>
+<span class="code-key">anchor_asset_type</span>  = <span class="code-str">"fiat"</span>
+<span class="code-key">anchor_asset</span>       = <span class="code-str">"USD"</span>
+<span class="code-key">max_number</span>         = <span class="code-val">922337203685</span>
+        </div>
+      </div>
+
+      <div style="margin-top: 16px; background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem 1.5rem;">
+        <p style="font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px;">Quick trustline</p>
+        <p style="font-family: var(--font-mono); font-size: 12px; color: #9BB8D4; line-height: 1.9;">
+          <span style="color: #7FD4B0;">Asset code</span> → USDPAY<br>
+          <span style="color: #7FD4B0;">Issuer</span> &nbsp;&nbsp;&nbsp;&nbsp;→ GC5QAUE…WLUSDC<br>
+          <span style="color: #7FD4B0;">Network</span> &nbsp;&nbsp;&nbsp;→ Stellar Public
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">USD SERIES</div>
+  <div class="footer-links">
+    <a href="https://stellar.expert/explorer/public/account/GC5QAUERATRRIPZWOWBEDTIRH6E3ROP2H7ZJWZYJNXPDMM3R27WLUSDC" target="_blank" rel="noopener">Stellar Expert ↗</a>
+    <a href="/.well-known/stellar.toml">stellar.toml</a>
+    <a href="https://github.com" target="_blank" rel="noopener">GitHub ↗</a>
+    <a href="mailto:support@usdseries.vercel.app">Contact</a>
+  </div>
+  <div class="footer-copy">© 2026 USD Series · Stellar Public Network</div>
+</footer>
+
+<script>
+  function copyIssuer() {
+    const addr = 'GC5QAUERATRRIPZWOWBEDTIRH6E3ROP2H7ZJWZYJNXPDMM3R27WLUSDC';
+    navigator.clipboard.writeText(addr).then(() => {
+      document.getElementById('copy-hint').textContent = 'copied!';
+      document.getElementById('issuer-addr').style.borderColor = '#00C47C';
+      setTimeout(() => {
+        document.getElementById('copy-hint').textContent = 'click to copy';
+        document.getElementById('issuer-addr').style.borderColor = '';
+      }, 2000);
+    });
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
